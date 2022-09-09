@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Collectors\" />
+    <None Remove="Processors\" />
+    <None Remove="Pipelines\" />
+    <None Remove="Flurl" />
+    <None Remove="Flurl.Http" />
+    <None Remove="Models\" />
+    <None Remove="HtmlAgilityPack" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Collectors\" />
+    <Folder Include="Processors\" />
+    <Folder Include="Pipelines\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Flurl" Version="3.0.6" />
+    <PackageReference Include="Flurl.Http" Version="3.2.4" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.45" />
+  </ItemGroup>
+</Project>
