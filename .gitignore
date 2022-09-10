@@ -1,3 +1,5 @@
+Exports/**
+
 # globs
 Makefile.in
 *.userprefs

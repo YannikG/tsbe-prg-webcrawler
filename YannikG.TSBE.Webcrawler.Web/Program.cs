@@ -1,40 +1,52 @@
-﻿
+﻿using Serilog;
+using YannikG.TSBE.Webcrawler.Core;
+using YannikG.TSBE.Webcrawler.Core.Pipelines;
+using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
+using YannikG.TSBE.Webcrawler.Core.Processors.Configs;
 
+var builder = WebApplication.CreateBuilder(args);
 
-// TESTING
+// Logging
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console());
 
-using YannikG.TSBE.Webcrawler.Core.Collectors;
-using YannikG.TSBE.Webcrawler.Core.Models;
-using YannikG.TSBE.Webcrawler.Core.Processors;
+// configuration
+builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+builder.Configuration.AddJsonFile($"appsettings.json", false, true);
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", true, true);
+builder.Configuration.AddEnvironmentVariables();
 
-var collector = new SingleHttpPageCollector();
-var processor = new RocoHtmlParserProcessor();
+// Controllers
+builder.Services.AddControllers();
 
-var result = await collector.CollectAsync("https://www.roco.cc/rde/produkte/wagen/guterwagen.html?verfuegbarkeit_status=41%2C42%2C43%2C45");
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-var processedResult = processor.Process(result);
+// Config
+builder.Services.ConfigureProcessors(builder.Configuration);
+builder.Services.ConfigurePipelines(builder.Configuration);
 
-Console.WriteLine($"Found Results ({processedResult.Count}):");
+builder.Services.AddHttpContextAccessor();
 
-processedResult.ToList().ForEach(r =>
+// Services
+builder.Services.AddCollectors();
+builder.Services.AddProcessors();
+builder.Services.AddPipelines();
+
+var app = builder.Build();
+
+app.UseSerilogRequestLogging();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
 {
-    Console.WriteLine(r.Name);
-    Console.WriteLine(r.Url);
-});
+    app.UseHttpsRedirection();
+}
 
-var fileName = "test";
+app.UseSwagger();
+app.UseSwaggerUI();
 
-var fileProcessor = new ObjectToFileProcessor();
+app.MapControllers();
 
-fileProcessor.Process<List<BasicArticleModel>>(processedResult.ToList(), fileName);
-
-
-Console.ReadLine();
-
-//var builder = WebApplication.CreateBuilder(args);
-//var app = builder.Build();
-
-//app.MapGet("/", () => "Hello World!");
-
-//app.Run();
-
+app.Run();
