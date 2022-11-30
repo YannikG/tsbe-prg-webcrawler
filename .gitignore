@@ -406,3 +406,4 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 YannikG.TSBE.Webcrawler.Web/test.json
+/YannikG.TSBE.Webcrawler.Web/Database.sqlite

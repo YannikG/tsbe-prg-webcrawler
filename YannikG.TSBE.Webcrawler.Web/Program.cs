@@ -1,8 +1,5 @@
 ﻿using Serilog;
 using YannikG.TSBE.Webcrawler.Core;
-using YannikG.TSBE.Webcrawler.Core.Pipelines;
-using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
-using YannikG.TSBE.Webcrawler.Core.Processors.Configs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,15 +21,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Config
-builder.Services.ConfigureProcessors(builder.Configuration);
-builder.Services.ConfigurePipelines(builder.Configuration);
+builder.Services.ConfigureSqlite(builder.Configuration);
 
 builder.Services.AddHttpContextAccessor();
 
 // Services
 builder.Services.AddCollectors();
 builder.Services.AddProcessors();
-builder.Services.AddPipelines();
+builder.Services.AddSqliteRepositories();
+builder.Services.AddPipelineServiceProvider();
 
 var app = builder.Build();
 
@@ -46,6 +43,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.SetupSqlite();
 
 app.MapControllers();
 

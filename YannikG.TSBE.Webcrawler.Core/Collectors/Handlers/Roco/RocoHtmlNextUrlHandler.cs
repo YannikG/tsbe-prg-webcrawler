@@ -1,19 +1,19 @@
 ﻿using System;
 using HtmlAgilityPack;
 
-namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco;
+namespace YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
 
-	public class RocoHtmlNextUrlProcessor
-	{
-		private const string CSS_CLASS_NEXT_PAGE = "action  next";
-		private const string HTML_ELEMENT_NEXT_PAGE = "a";
+public class RocoHtmlNextUrlHandler
+{
+    private const string CSS_CLASS_NEXT_PAGE = "action  next";
+    private const string HTML_ELEMENT_NEXT_PAGE = "a";
 
-    public RocoHtmlNextUrlProcessor()
-		{
-		}
+    public RocoHtmlNextUrlHandler()
+    {
+    }
 
-		public string Process(string html)
-		{
+    public string Handle(string html)
+    {
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(html);
 
@@ -27,5 +27,5 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco;
             return nextPageNode.GetAttributeValue("href", string.Empty);
         return string.Empty;
     }
-	}
+}
 
