@@ -11,5 +11,6 @@ namespace YannikG.TSBE.Webcrawler.Core.Repositories
     {
         void Create(ImageEntity entity);
         List<ImageEntity> GetImagesByImageUrl(string imageUrl);
+        List<ImageEntity> GetAllImages();
     }
 }
