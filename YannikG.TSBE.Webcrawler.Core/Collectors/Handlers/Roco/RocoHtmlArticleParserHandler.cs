@@ -26,7 +26,7 @@ public class RocoHtmlArticleParserHandler
                     .Contains(CSS_CLASS_PRODUCT)
                     )
                 .ToList()
-                .ForEach(node => next(processProduct(node)));
+                .ForEach(node => next(processProduct(node), new ProcessorResult(ProcessorResultType.SUCCESS, $"Collector finished.")));
     }
 
     private BasicArticleModel processProduct(HtmlNode htmlNode)

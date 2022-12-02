@@ -26,7 +26,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
 
             if (input is null || string.IsNullOrEmpty(input.ArticleNumber) || string.IsNullOrEmpty(input.Name))
             {
-                next.Invoke(input);
+                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED, "Article Number or Name is empty"));
                 return;
             }
 
@@ -57,9 +57,12 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
                 }
 
                 _articleRepository.Create(newArticle);
-            }
+                next.Invoke(input, new ProcessorResult(ProcessorResultType.SUCCESS, $"Import for {input.ArticleNumber} finished."));
 
-            next.Invoke(input);
+            }
+            else
+                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED, $"Import for {input.ArticleNumber} skipped."));
+
         }
     }
 }

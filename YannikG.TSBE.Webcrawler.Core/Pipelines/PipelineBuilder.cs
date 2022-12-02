@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,10 +18,12 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
         private List<ProcessorCallback<TInput, TPipelineSettings>> _processors = new List<ProcessorCallback<TInput, TPipelineSettings>>();
 
         private readonly PipelineServiceProvider _serviceProvider;
+        private readonly ILoggerFactory _loggerFactory;
 
         public PipelineBuilder(PipelineServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _loggerFactory = serviceProvider.GetService<ILoggerFactory>()!;
         }
 
         public PipelineBuilder<TInput, TPipelineSettings> UseCollector<TCollector>() where TCollector : ICollector<TInput, TPipelineSettings>
@@ -60,7 +63,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
 
         public Pipeline<TInput, TPipelineSettings> Build()
         {
-            return new Pipeline<TInput, TPipelineSettings>(this._collector, this._processors);
+            return new Pipeline<TInput, TPipelineSettings>(this._collector, this._processors, this._loggerFactory);
         }
     }
 }

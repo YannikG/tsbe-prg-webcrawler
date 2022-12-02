@@ -22,7 +22,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
         {
             if (input is null || string.IsNullOrEmpty(input.ImageUrl))
             {
-                next.Invoke(input);
+                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED, "ImageUrl is null"));
                 return;
             }
                 
@@ -36,10 +36,10 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
                 };
 
                 _imageRepository.Create(newImage);
+                next.Invoke(input, new ProcessorResult(ProcessorResultType.SUCCESS, $"Import for {input.ImageUrl} finished"));
             }
-
-            next.Invoke(input);
-            return;
+            else
+                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED, $"Import for {input.ImageUrl} skipped"));
         }
     }
 }
