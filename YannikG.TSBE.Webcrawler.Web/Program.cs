@@ -20,16 +20,18 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
+
 // Config
 builder.Services.ConfigureSqlite(builder.Configuration);
-
-builder.Services.AddHttpContextAccessor();
+builder.Services.ConfigureFileExport(builder.Configuration);
 
 // Services
 builder.Services.AddCollectors();
 builder.Services.AddProcessors();
 builder.Services.AddSqliteRepositories();
-builder.Services.AddPipelineServiceProvider();
+builder.Services.AddFileRepositories();
+builder.Services.AddPipelineBuilder();
 
 var app = builder.Build();
 

@@ -12,7 +12,7 @@ using YannikG.TSBE.Webcrawler.Core.Services;
 
 namespace YannikG.TSBE.Webcrawler.Core.Pipelines
 {
-    public class PipelineBuilder<TInput, TPipelineSettings> where TInput : class where TPipelineSettings : IPipelineSettings
+    public class PipelineBuilder<TInput, TPipelineSettings> : IPipelineBuilder<TInput, TPipelineSettings> where TInput : class where TPipelineSettings : IPipelineSettings
     {
         private ICollector<TInput, TPipelineSettings>? _collector;
         private List<ProcessorCallback<TInput, TPipelineSettings>> _processors = new List<ProcessorCallback<TInput, TPipelineSettings>>();
@@ -26,7 +26,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
             _loggerFactory = serviceProvider.GetService<ILoggerFactory>()!;
         }
 
-        public PipelineBuilder<TInput, TPipelineSettings> UseCollector<TCollector>() where TCollector : ICollector<TInput, TPipelineSettings>
+        public IPipelineBuilder<TInput, TPipelineSettings> UseCollector<TCollector>() where TCollector : ICollector<TInput, TPipelineSettings>
         {
             var collector = _serviceProvider.GetService<TCollector>();
 
@@ -38,13 +38,13 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
             return this;
         }
 
-        public PipelineBuilder<TInput, TPipelineSettings> WithoutCollector()
+        public IPipelineBuilder<TInput, TPipelineSettings> WithoutCollector()
         {
             _collector = null;
             return this;
         }
 
-        public PipelineBuilder<TInput, TPipelineSettings> AddProcessor<TProcessor>() where TProcessor : IProcessor<TInput, TPipelineSettings>
+        public IPipelineBuilder<TInput, TPipelineSettings> AddProcessor<TProcessor>() where TProcessor : IProcessor<TInput, TPipelineSettings>
         {
             var processor = _serviceProvider.GetService<TProcessor>();
 
@@ -55,7 +55,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
             return this;
         }
 
-        public PipelineBuilder<TInput, TPipelineSettings> WithoutProcessors()
+        public IPipelineBuilder<TInput, TPipelineSettings> WithoutProcessors()
         {
             this._processors = new List<ProcessorCallback<TInput, TPipelineSettings>>();
             return this;

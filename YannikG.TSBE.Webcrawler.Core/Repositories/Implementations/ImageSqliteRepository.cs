@@ -1,10 +1,5 @@
 ﻿using Dapper;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YannikG.TSBE.Webcrawler.Core.Entities;
 using YannikG.TSBE.Webcrawler.Core.Repositories.Configs;
 
@@ -22,6 +17,16 @@ namespace YannikG.TSBE.Webcrawler.Core.Repositories.Implementations
             {
                 connection.Execute($"INSERT INTO {Config.ImageEntityTableName} (ImageUrl)" +
                     $" VALUES (@ImageUrl)", entity);
+            }
+        }
+
+        public List<ImageEntity> GetAllImages()
+        {
+            using (var connction = GetConnection())
+            {
+                var result = connction.Query<ImageEntity>($"SELECT * FROM {Config.ImageEntityTableName}");
+
+                return result.ToList();
             }
         }
 

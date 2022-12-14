@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using YannikG.TSBE.Webcrawler.Core.Collectors;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
+using YannikG.TSBE.Webcrawler.Core.Processors.Image;
 using YannikG.TSBE.Webcrawler.Core.Processors.Roco;
-using YannikG.TSBE.Webcrawler.Core.Services;
 
 namespace YannikG.TSBE.Webcrawler.Web.Controllers
 {
@@ -18,25 +13,37 @@ namespace YannikG.TSBE.Webcrawler.Web.Controllers
     public class PipelineController : ControllerBase
     {
         private readonly Pipeline<BasicArticleModel, RocoPipelineSettings> _rocoBasicArticlePipeline;
+        private readonly Pipeline<ImageFromDatabaseModel, ImageDownloadPipelineSettings> _imageDownloadPipeline;
 
-        public PipelineController(PipelineServiceProvider pipelineServiceProvider)
+        public PipelineController(
+            IPipelineBuilder<BasicArticleModel, RocoPipelineSettings> rocoPipelineBuilder,
+            IPipelineBuilder<ImageFromDatabaseModel, ImageDownloadPipelineSettings> imageDownloadPipelineBuilder)
         {
-            _rocoBasicArticlePipeline = new PipelineBuilder<BasicArticleModel, RocoPipelineSettings>(pipelineServiceProvider)
+            _rocoBasicArticlePipeline = rocoPipelineBuilder
                    .UseCollector<RocoHtmlCollector>()
                    .AddProcessor<RocoModelToImageEntityProcessor>()
                    .AddProcessor<RocoModelToArticleEntityProcessor>()
                    .Build();
+
+            _imageDownloadPipeline = imageDownloadPipelineBuilder
+                    .UseCollector<ImageFromDatabaseCollector>()
+                    .AddProcessor<SortAlreadyDownloadedImageProcessor>()
+                    .AddProcessor<DownloadImagesFromUrlProcessor>()
+                    .Build();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> StartRocoPipeline(string startUrl)
+        [HttpPost("roco")]
+        public async Task<IActionResult> StartRocoPipeline([FromBody] RocoPipelineSettings settings)
         {
-            await _rocoBasicArticlePipeline.StartPipeline(new RocoPipelineSettings()
-            {
-                ManufacturerDefaultValue = "Roco",
-                StopAfterRounds = 2,
-                StartUrl = startUrl
-            });
+            await _rocoBasicArticlePipeline.StartPipeline(settings);
+
+            return NoContent();
+        }
+
+        [HttpPost("imagedownload")]
+        public async Task<IActionResult> StartImageDownloadPipeline([FromBody] ImageDownloadPipelineSettings settings)
+        {
+            await _imageDownloadPipeline.StartPipeline(settings);
 
             return NoContent();
         }

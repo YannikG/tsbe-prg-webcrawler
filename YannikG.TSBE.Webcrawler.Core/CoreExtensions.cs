@@ -6,10 +6,8 @@ using YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
 using YannikG.TSBE.Webcrawler.Core.Collectors.Requesters;
 using YannikG.TSBE.Webcrawler.Core.Pipelines;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
+using YannikG.TSBE.Webcrawler.Core.Processors.Image;
 using YannikG.TSBE.Webcrawler.Core.Processors.Roco;
-using YannikG.TSBE.Webcrawler.Core.Repositories;
-using YannikG.TSBE.Webcrawler.Core.Repositories.Configs;
-using YannikG.TSBE.Webcrawler.Core.Repositories.Implementations;
 using YannikG.TSBE.Webcrawler.Core.Services;
 
 namespace YannikG.TSBE.Webcrawler.Core
@@ -21,6 +19,8 @@ namespace YannikG.TSBE.Webcrawler.Core
             // Processors.
             services.AddScoped<RocoModelToArticleEntityProcessor>();
             services.AddScoped<RocoModelToImageEntityProcessor>();
+            services.AddScoped<SortAlreadyDownloadedImageProcessor>();
+            services.AddScoped<DownloadImagesFromUrlProcessor>();
 
             return services;
         }
@@ -36,16 +36,20 @@ namespace YannikG.TSBE.Webcrawler.Core
 
             // Collectors.
             services.AddScoped<RocoHtmlCollector>();
+            services.AddScoped<ImageFromDatabaseCollector>();
 
             return services;
         }
 
-        public static IServiceCollection AddPipelineServiceProvider(this IServiceCollection services)
+        public static IServiceCollection AddPipelineBuilder(this IServiceCollection services)
         {
             IServiceProvider provider = services.BuildServiceProvider();
 
             var pipelineServiceProvider = new PipelineServiceProvider(provider);
             services.AddSingleton<PipelineServiceProvider>(pipelineServiceProvider);
+
+            // Inject generic interface and class.
+            services.AddScoped(typeof(IPipelineBuilder<,>), typeof(PipelineBuilder<,>));
 
             return services;
         }

@@ -24,15 +24,12 @@
     <None Remove="Microsoft.Extensions.Configuration.Binder" />
     <None Remove="Microsoft.Extensions.Options.ConfigurationExtensions" />
     <None Remove="Microsoft.Extensions.Logging.Abstractions" />
-    <None Remove="Collectors\Handlers\FileSystem\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Collectors\" />
-    <Folder Include="Pipelines\" />
     <Folder Include="Models\" />
     <Folder Include="Utilities\" />
     <Folder Include="Pipelines\Configs\" />
-    <Folder Include="Collectors\Handlers\FileSystem\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
