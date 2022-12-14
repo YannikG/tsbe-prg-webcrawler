@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YannikG.TSBE.Webcrawler.Core.Entities;
+﻿using YannikG.TSBE.Webcrawler.Core.Entities;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Repositories;
@@ -18,6 +13,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
         {
             _imageFileRepository = imageFileRepository;
         }
+
         public void Process(ImageFromDatabaseModel? input, ImageDownloadPipelineSettings pipelineSettings, ProcessorNextCallback<ImageFromDatabaseModel> next)
         {
             if (input == null || input.ImageEntities.Count <= 0)

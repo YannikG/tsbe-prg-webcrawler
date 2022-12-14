@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using YannikG.TSBE.Webcrawler.Core.Repositories.Configs;
 
 namespace YannikG.TSBE.Webcrawler.Core.Repositories.Implementations

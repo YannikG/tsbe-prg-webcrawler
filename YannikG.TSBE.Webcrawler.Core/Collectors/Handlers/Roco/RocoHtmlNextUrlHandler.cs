@@ -1,5 +1,4 @@
-﻿using System;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 
 namespace YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
 
@@ -20,7 +19,7 @@ public class RocoHtmlNextUrlHandler
         var nextPageNode = htmlDoc.DocumentNode.Descendants(HTML_ELEMENT_NEXT_PAGE)
                 .Where(node => node.GetAttributeValue("class", "")
                     .Contains(CSS_CLASS_NEXT_PAGE)
-                    )
+                      )
                 .FirstOrDefault();
 
         if (nextPageNode != null)
@@ -28,4 +27,3 @@ public class RocoHtmlNextUrlHandler
         return string.Empty;
     }
 }
-

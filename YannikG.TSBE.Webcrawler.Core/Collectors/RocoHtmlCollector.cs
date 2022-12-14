@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
+﻿using YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
 using YannikG.TSBE.Webcrawler.Core.Collectors.Requesters;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
@@ -40,14 +37,13 @@ namespace YannikG.TSBE.Webcrawler.Core.Collectors
                     shouldContinue = false;
 
                 roundCounter++;
-
             } while (
-                shouldContinue && 
+                shouldContinue &&
                 (
                     pipelineSettings.StopAfterRounds == null ||
                     roundCounter < pipelineSettings.StopAfterRounds!
                 )
-            );
+                    );
         }
     }
 }

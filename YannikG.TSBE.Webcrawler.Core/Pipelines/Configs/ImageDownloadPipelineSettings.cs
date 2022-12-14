@@ -1,8 +1,6 @@
-﻿using System;
-namespace YannikG.TSBE.Webcrawler.Core.Pipelines.Configs
+﻿namespace YannikG.TSBE.Webcrawler.Core.Pipelines.Configs
 {
-	public class ImageDownloadPipelineSettings : BasePipelineSettings, IPipelineSettings
-	{
-	}
+    public class ImageDownloadPipelineSettings : BasePipelineSettings, IPipelineSettings
+    {
+    }
 }
-

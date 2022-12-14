@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
 using YannikG.TSBE.Webcrawler.Core.Collectors;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Processors;

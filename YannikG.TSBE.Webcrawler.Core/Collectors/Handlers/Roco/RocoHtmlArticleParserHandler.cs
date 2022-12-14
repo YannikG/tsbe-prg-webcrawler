@@ -1,6 +1,4 @@
-﻿using System;
-using System.Xml;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Processors;
 using YannikG.TSBE.Webcrawler.Core.Utilities;
@@ -17,16 +15,15 @@ public class RocoHtmlArticleParserHandler
 
     public void Handle(string html, ProcessorNextCallback<BasicArticleModel> next)
     {
-
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(html);
 
         htmlDoc.DocumentNode.Descendants(HTML_ELEMENT_PRODUCT)
-                .Where(node => node.GetAttributeValue("class", "")
-                    .Contains(CSS_CLASS_PRODUCT)
-                    )
-                .ToList()
-                .ForEach(node => next(processProduct(node), new ProcessorResult(ProcessorResultType.SUCCESS, $"Collector finished.")));
+               .Where(node => node.GetAttributeValue("class", "")
+                   .Contains(CSS_CLASS_PRODUCT)
+                     )
+               .ToList()
+               .ForEach(node => next(processProduct(node), new ProcessorResult(ProcessorResultType.SUCCESS, $"Collector finished.")));
     }
 
     private BasicArticleModel processProduct(HtmlNode htmlNode)
@@ -46,4 +43,3 @@ public class RocoHtmlArticleParserHandler
         return result;
     }
 }
-

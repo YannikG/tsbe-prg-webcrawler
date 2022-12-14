@@ -1,16 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YannikG.TSBE.Webcrawler.Core.Repositories.Implementations;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using YannikG.TSBE.Webcrawler.Core.Repositories;
-using Microsoft.Extensions.Configuration;
 using YannikG.TSBE.Webcrawler.Core.Repositories.Configs;
-using YannikG.TSBE.Webcrawler.Core.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Options;
+using YannikG.TSBE.Webcrawler.Core.Repositories.Implementations;
 
 namespace YannikG.TSBE.Webcrawler.Core
 {
@@ -20,7 +12,7 @@ namespace YannikG.TSBE.Webcrawler.Core
         {
             services.Configure<FileExportConfig>(
                 configuration.GetSection("FileExport")
-            );
+                                                );
 
             services.AddTransient<FileExportConfig>();
 

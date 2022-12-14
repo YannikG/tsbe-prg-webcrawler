@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows.Markup;
-using YannikG.TSBE.Webcrawler.Core.Entities;
+﻿using YannikG.TSBE.Webcrawler.Core.Entities;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Repositories;
@@ -22,7 +20,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
                 next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED));
 
             input!.ImageEntities.ForEach(i =>
-            {               
+            {
                 // Currently there is no async implementation for Processors and Pipelines planned ;)
                 var task = Task.Run(() => downloadImageEntity(i));
                 task.Wait();
@@ -44,14 +42,17 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
         {
             string lastPartOfUrl = url.Split(".").Last();
 
-            switch(lastPartOfUrl)
+            switch (lastPartOfUrl)
             {
                 case "jpg":
                     return "jpg";
+
                 case "jpeg":
                     return "jpeg";
+
                 case "png":
                     return "png";
+
                 default:
                     throw new ArgumentException($"unknown image file extention was found: {lastPartOfUrl}");
             }

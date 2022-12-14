@@ -20,13 +20,13 @@ namespace YannikG.TSBE.Webcrawler.Web.Controllers
             IPipelineBuilder<ImageFromDatabaseModel, ImageDownloadPipelineSettings> imageDownloadPipelineBuilder)
         {
             _rocoBasicArticlePipeline = rocoPipelineBuilder
-                   .UseCollector<RocoHtmlCollector>()
-                   .AddProcessor<RocoModelToImageEntityProcessor>()
-                   .AddProcessor<RocoModelToArticleEntityProcessor>()
-                   .Build();
+                .UseCollector<RocoHtmlCollector>()
+                    .AddProcessor<RocoModelToImageEntityProcessor>()
+                    .AddProcessor<RocoModelToArticleEntityProcessor>()
+                    .Build();
 
             _imageDownloadPipeline = imageDownloadPipelineBuilder
-                    .UseCollector<ImageFromDatabaseCollector>()
+                .UseCollector<ImageFromDatabaseCollector>()
                     .AddProcessor<SortAlreadyDownloadedImageProcessor>()
                     .AddProcessor<DownloadImagesFromUrlProcessor>()
                     .Build();

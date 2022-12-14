@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using YannikG.TSBE.Webcrawler.Core.Entities;
+﻿using YannikG.TSBE.Webcrawler.Core.Entities;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Repositories;
@@ -23,7 +18,6 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
 
         public void Process(BasicArticleModel? input, RocoPipelineSettings pipelineSettings, ProcessorNextCallback<BasicArticleModel> next)
         {
-
             if (input is null || string.IsNullOrEmpty(input.ArticleNumber) || string.IsNullOrEmpty(input.Name))
             {
                 next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED));
@@ -39,7 +33,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
             var existingArticles = _articleRepository.GetEntitiesByArticleNumberAndManufacturer(input.ArticleNumber, articleManufacturer);
 
             if (existingArticles.Count <= 0)
-            {              
+            {
                 var newArticle = new ArticleEntity()
                 {
                     ArticleManufacturer = articleManufacturer,

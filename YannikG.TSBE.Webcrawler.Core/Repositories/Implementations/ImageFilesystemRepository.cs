@@ -13,6 +13,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Repositories.Implementations
 
             ensureFoldersExists();
         }
+
         public bool DoesImageAlreadyExists(long imageId)
         {
             string path = calculateFullPath("");
@@ -25,18 +26,18 @@ namespace YannikG.TSBE.Webcrawler.Core.Repositories.Implementations
             File.WriteAllBytes(path, imageData);
         }
 
-        private void ensureFoldersExists()
-        {
-            string path = calculateFullPath("");
-
-            Directory.CreateDirectory(path);
-        }
-
         private string calculateFullPath(string lastPath)
         {
             string basePath = Environment.CurrentDirectory;
 
             return Path.Combine(basePath, _config.ImageExportPath, lastPath);
+        }
+
+        private void ensureFoldersExists()
+        {
+            string path = calculateFullPath("");
+
+            Directory.CreateDirectory(path);
         }
     }
 }

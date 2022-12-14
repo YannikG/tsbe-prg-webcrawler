@@ -1,9 +1,7 @@
-﻿using System;
-namespace YannikG.TSBE.Webcrawler.Core.Pipelines.Configs
+﻿namespace YannikG.TSBE.Webcrawler.Core.Pipelines.Configs
 {
-	public class BasePipelineSettings
+    public class BasePipelineSettings
     {
-		public int? StopAfterRounds { get; set; }
-	}
+        public int? StopAfterRounds { get; set; }
+    }
 }
-

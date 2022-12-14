@@ -1,11 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using YannikG.TSBE.Webcrawler.Core.Collectors;
 using YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
 using YannikG.TSBE.Webcrawler.Core.Collectors.Requesters;
 using YannikG.TSBE.Webcrawler.Core.Pipelines;
-using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Processors.Image;
 using YannikG.TSBE.Webcrawler.Core.Processors.Roco;
 using YannikG.TSBE.Webcrawler.Core.Services;
@@ -55,4 +52,3 @@ namespace YannikG.TSBE.Webcrawler.Core
         }
     }
 }
-

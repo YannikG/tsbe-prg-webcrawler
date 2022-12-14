@@ -1,6 +1,4 @@
-﻿using System;
-using Flurl;
-using Flurl.Http;
+﻿using Flurl.Http;
 
 namespace YannikG.TSBE.Webcrawler.Core.Collectors.Requesters
 {
@@ -20,4 +18,3 @@ namespace YannikG.TSBE.Webcrawler.Core.Collectors.Requesters
         }
     }
 }
-

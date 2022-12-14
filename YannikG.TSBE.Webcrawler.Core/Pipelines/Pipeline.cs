@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using YannikG.TSBE.Webcrawler.Core.Collectors;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Processors;
@@ -17,6 +12,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
         private int _processorCalled = -1;
         private TPipelineSettings? _pipelineSettings;
         private readonly ILogger _logger;
+
         public Pipeline(ICollector<TInput, TPipelineSettings>? collector, List<ProcessorCallback<TInput, TPipelineSettings>> processors, ILoggerFactory loggerFactory)
         {
             _collector = collector;
