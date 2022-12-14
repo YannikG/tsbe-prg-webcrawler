@@ -36,6 +36,9 @@ namespace YannikG.TSBE.Webcrawler.Core.Collectors
                 if (string.IsNullOrEmpty(url))
                     shouldContinue = false;
 
+                // A Delay can be defined so Roco.cc doesn't get hit in a too short interval to trigger some sort of DDoS protection...
+                Thread.Sleep(pipelineSettings.Deloay);
+
                 roundCounter++;
             } while (
                 shouldContinue &&
