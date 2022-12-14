@@ -51,3 +51,5 @@ app.SetupSqlite();
 app.MapControllers();
 
 app.Run();
+
+// This is an unwanted comment
