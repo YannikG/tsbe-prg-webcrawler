@@ -26,19 +26,28 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
                 task.Wait();
             });
         }
-
+        /// <summary>
+        /// Download Image from stored URL in <paramref name="imageEntity"/>
+        /// </summary>
+        /// <param name="imageEntity"></param>
+        /// <returns></returns>
         private async Task downloadImageEntity(ImageEntity imageEntity)
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string extention = findImageExtention(imageEntity.ImageUrl);
+                string extension = findImageExtension(imageEntity.ImageUrl);
                 var result = await httpClient.GetByteArrayAsync(imageEntity.ImageUrl);
 
-                _imageFileRepository.SaveImage(result, imageEntity.Id, extention);
+                _imageFileRepository.SaveImage(result, imageEntity.Id, extension);
             }
         }
-
-        private string findImageExtention(string url)
+        /// <summary>
+        /// Find file extension from URL.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        private string findImageExtension(string url)
         {
             string lastPartOfUrl = url.Split(".").Last();
 
@@ -54,7 +63,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
                     return "png";
 
                 default:
-                    throw new ArgumentException($"unknown image file extention was found: {lastPartOfUrl}");
+                    throw new ArgumentException($"unknown image file extension was found: {lastPartOfUrl}");
             }
         }
     }

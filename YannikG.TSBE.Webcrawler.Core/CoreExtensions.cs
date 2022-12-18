@@ -9,8 +9,16 @@ using YannikG.TSBE.Webcrawler.Core.Services;
 
 namespace YannikG.TSBE.Webcrawler.Core
 {
+    /// <summary>
+    /// Extension for pipelines, processors and collectors.
+    /// </summary>
     public static class CoreExtensions
     {
+        /// <summary>
+        /// Add all processors.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddProcessors(this IServiceCollection services)
         {
             // Processors.
@@ -22,6 +30,11 @@ namespace YannikG.TSBE.Webcrawler.Core
             return services;
         }
 
+        /// <summary>
+        /// Add collectors and their handlers / helpers.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddCollectors(this IServiceCollection services)
         {
             // Collector Handlers.
@@ -38,8 +51,14 @@ namespace YannikG.TSBE.Webcrawler.Core
             return services;
         }
 
+        /// <summary>
+        /// Add Pipeline builder.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddPipelineBuilder(this IServiceCollection services)
         {
+            // This workaround is required to allow access to the service provider within the pipeline builder.
             IServiceProvider provider = services.BuildServiceProvider();
 
             var pipelineServiceProvider = new PipelineServiceProvider(provider);

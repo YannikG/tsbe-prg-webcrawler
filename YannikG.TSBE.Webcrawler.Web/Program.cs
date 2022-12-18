@@ -20,13 +20,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// HTTP context
 builder.Services.AddHttpContextAccessor();
 
-// Config
+// configure custom services
 builder.Services.ConfigureSqlite(builder.Configuration);
 builder.Services.ConfigureFileExport(builder.Configuration);
 
-// Services
+// add custom services
 builder.Services.AddCollectors();
 builder.Services.AddProcessors();
 builder.Services.AddSqliteRepositories();
@@ -35,6 +36,7 @@ builder.Services.AddPipelineBuilder();
 
 var app = builder.Build();
 
+// use logging
 app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
@@ -46,11 +48,10 @@ if (app.Environment.IsDevelopment())
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// setup custom sqlite database
 app.SetupSqlite();
 
+// Controllers
 app.MapControllers();
 
 app.Run();
-
-// This is an unwanted comment
-// This comment is also unwanted

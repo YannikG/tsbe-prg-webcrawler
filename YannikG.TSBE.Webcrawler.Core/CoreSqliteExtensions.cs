@@ -8,8 +8,17 @@ using YannikG.TSBE.Webcrawler.Core.Services;
 
 namespace YannikG.TSBE.Webcrawler.Core
 {
+    /// <summary>
+    /// Extension for sqlite.
+    /// </summary>
     public static class CoreSqliteExtensions
     {
+        /// <summary>
+        /// Configure sqlite and inject setup service for local database.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection ConfigureSqlite(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<SqliteConfig>(
@@ -20,7 +29,11 @@ namespace YannikG.TSBE.Webcrawler.Core
 
             return services;
         }
-
+        /// <summary>
+        /// Add sqlite based implementation for entities repositories.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddSqliteRepositories(this IServiceCollection services)
         {
             // Repositories.
@@ -30,6 +43,11 @@ namespace YannikG.TSBE.Webcrawler.Core
             return services;
         }
 
+        /// <summary>
+        /// Run setup to ensure a sqlite database has been created.
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder SetupSqlite(this IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.CreateScope())
