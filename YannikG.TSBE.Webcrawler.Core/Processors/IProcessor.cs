@@ -10,6 +10,6 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors
         /// <param name="input"></param>
         /// <param name="pipelineSettings"></param>
         /// <param name="next"></param>
-        public void Process(TInput? input, TPipelineSettings pipelineSettings, ProcessorNextCallback<TInput> next);
+        public Task<ProcessorResult> ProcessAsync(TInput? input, TPipelineSettings pipelineSettings);
     }
 }

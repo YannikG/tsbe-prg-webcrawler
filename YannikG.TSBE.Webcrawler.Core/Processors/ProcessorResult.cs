@@ -26,6 +26,7 @@
     {
         SKIPPED,
         SUCCESS,
-        FAILED
+        FAILED,
+        ABORT_ITEM
     }
 }

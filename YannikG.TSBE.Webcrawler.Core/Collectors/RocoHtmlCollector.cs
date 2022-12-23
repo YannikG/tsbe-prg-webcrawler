@@ -2,7 +2,6 @@
 using YannikG.TSBE.Webcrawler.Core.Collectors.Requesters;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
-using YannikG.TSBE.Webcrawler.Core.Processors;
 
 namespace YannikG.TSBE.Webcrawler.Core.Collectors
 {
@@ -19,17 +18,19 @@ namespace YannikG.TSBE.Webcrawler.Core.Collectors
             _nextUrlHandler = nextUrlHandler;
         }
 
-        public async Task CollectAsync(RocoPipelineSettings pipelineSettings, ProcessorNextCallback<BasicArticleModel> next)
+        public async Task<ICollection<BasicArticleModel>> CollectAsync(RocoPipelineSettings pipelineSettings)
         {
             string url = pipelineSettings.StartUrl;
             bool shouldContinue = true;
+
+            var result = new List<BasicArticleModel>();
 
             int roundCounter = 0;
             do
             {
                 string htmlResult = await _requester.RequestAsync(url);
 
-                _parserHandler.Handle(htmlResult, next);
+                result.AddRange(_parserHandler.Handle(htmlResult));
 
                 url = _nextUrlHandler.Handle(htmlResult);
 
@@ -47,6 +48,8 @@ namespace YannikG.TSBE.Webcrawler.Core.Collectors
                     roundCounter < pipelineSettings.StopAfterRounds!
                 )
                     );
+
+            return result;
         }
     }
 }

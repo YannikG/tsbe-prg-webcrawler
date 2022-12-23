@@ -1,4 +1,5 @@
-﻿using YannikG.TSBE.Webcrawler.Core.Entities;
+﻿using static Dapper.SqlMapper;
+using YannikG.TSBE.Webcrawler.Core.Entities;
 using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Repositories;
@@ -14,22 +15,15 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
             _imageFileRepository = imageFileRepository;
         }
 
-        public void Process(ImageFromDatabaseModel? input, ImageDownloadPipelineSettings pipelineSettings, ProcessorNextCallback<ImageFromDatabaseModel> next)
+        public async Task<ProcessorResult> ProcessAsync(ImageFromDatabaseModel? input, ImageDownloadPipelineSettings pipelineSettings)
         {
-            if (input == null || input.ImageEntities.Count <= 0)
-                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED));
+            if (input == null || input.Entity == null)
+                return new ProcessorResult(ProcessorResultType.SKIPPED, "skipped, no entity");
 
-            var notYetDownloadedImages = new List<ImageEntity>();
-
-            input!.ImageEntities.ForEach(entity =>
-            {
-                if (!_imageFileRepository.DoesImageAlreadyExists(entity.Id))
-                    notYetDownloadedImages.Add(entity);
-            });
-
-            input!.ImageEntities = notYetDownloadedImages;
-
-            next.Invoke(input, new ProcessorResult(ProcessorResultType.SUCCESS));
+            if (_imageFileRepository.DoesImageAlreadyExists(input.Entity.Id))
+                return new ProcessorResult(ProcessorResultType.ABORT_ITEM, "already downloaded. abort for this item");
+            else
+                return new ProcessorResult(ProcessorResultType.SUCCESS, "not existing, go ahead");
         }
     }
 }

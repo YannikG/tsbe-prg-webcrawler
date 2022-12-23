@@ -9,7 +9,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
     public class PipelineBuilder<TInput, TPipelineSettings> : IPipelineBuilder<TInput, TPipelineSettings> where TInput : class where TPipelineSettings : IPipelineSettings
     {
         private ICollector<TInput, TPipelineSettings>? _collector;
-        private List<ProcessorCallback<TInput, TPipelineSettings>> _processors = new List<ProcessorCallback<TInput, TPipelineSettings>>();
+        private List<IProcessor<TInput, TPipelineSettings>> _processors = new List<IProcessor<TInput, TPipelineSettings>>();
 
         private readonly PipelineServiceProvider _serviceProvider;
         private readonly ILoggerFactory _loggerFactory;
@@ -45,13 +45,13 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
             if (processor is null)
                 throw new ArgumentException("Processor must be in dependency injection pipeline!");
 
-            _processors.Add(processor.Process);
+            _processors.Add(processor);
             return this;
         }
 
         public IPipelineBuilder<TInput, TPipelineSettings> WithoutProcessors()
         {
-            this._processors = new List<ProcessorCallback<TInput, TPipelineSettings>>();
+            this._processors = new List<IProcessor<TInput, TPipelineSettings>>();
             return this;
         }
 

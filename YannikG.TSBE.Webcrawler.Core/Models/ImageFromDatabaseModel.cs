@@ -4,6 +4,6 @@ namespace YannikG.TSBE.Webcrawler.Core.Models
 {
     public class ImageFromDatabaseModel
     {
-        public List<ImageEntity> ImageEntities { get; set; } = new List<ImageEntity>();
+        public ImageEntity Entity { get; set; }
     }
 }
