@@ -1,6 +1,4 @@
-﻿using static Dapper.SqlMapper;
-using YannikG.TSBE.Webcrawler.Core.Entities;
-using YannikG.TSBE.Webcrawler.Core.Models;
+﻿using YannikG.TSBE.Webcrawler.Core.Models;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Repositories;
 

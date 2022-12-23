@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using YannikG.TSBE.Webcrawler.Core.Collectors;
 using YannikG.TSBE.Webcrawler.Core.Pipelines.Configs;
 using YannikG.TSBE.Webcrawler.Core.Processors;

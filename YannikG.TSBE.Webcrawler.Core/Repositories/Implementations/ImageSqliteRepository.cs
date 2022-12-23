@@ -1,5 +1,5 @@
-﻿using Dapper;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using Dapper;
 using YannikG.TSBE.Webcrawler.Core.Entities;
 using YannikG.TSBE.Webcrawler.Core.Repositories.Configs;
 
