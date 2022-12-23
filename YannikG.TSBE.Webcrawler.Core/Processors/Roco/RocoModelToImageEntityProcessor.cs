@@ -14,12 +14,11 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
             _imageRepository = imageRepository;
         }
 
-        public void Process(BasicArticleModel? input, RocoPipelineSettings pipelineSettings, ProcessorNextCallback<BasicArticleModel> next)
+        public async Task<ProcessorResult> ProcessAsync(BasicArticleModel? input, RocoPipelineSettings pipelineSettings)
         {
             if (input is null || string.IsNullOrEmpty(input.ImageUrl))
             {
-                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED));
-                return;
+                return new ProcessorResult(ProcessorResultType.SKIPPED, $"processing of {pipelineSettings.ManufacturerDefaultValue} {input?.ArticleNumber}: {input?.ImageUrl}");
             }
 
             var imagesWithSameUrl = _imageRepository.GetImagesByImageUrl(input.ImageUrl);
@@ -34,8 +33,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Roco
                 _imageRepository.Create(newImage);
             }
 
-            next.Invoke(input, new ProcessorResult(ProcessorResultType.SUCCESS));
-            return;
+            return new ProcessorResult(ProcessorResultType.SUCCESS, $"processing of {pipelineSettings.ManufacturerDefaultValue} {input?.ArticleNumber}: {input?.ImageUrl}");
         }
     }
 }

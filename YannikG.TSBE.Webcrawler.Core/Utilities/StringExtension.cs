@@ -6,7 +6,7 @@
     public static class StringExtension
     {
         /// <summary>
-        /// replaces common 
+        /// replaces common
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>

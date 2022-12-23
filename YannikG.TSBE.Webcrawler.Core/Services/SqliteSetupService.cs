@@ -1,6 +1,6 @@
-﻿using Dapper;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
+using Dapper;
 using YannikG.TSBE.Webcrawler.Core.Repositories.Configs;
 
 namespace YannikG.TSBE.Webcrawler.Core.Services

@@ -14,24 +14,29 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
             _imageFileRepository = imageFileRepository;
         }
 
-        public void Process(ImageFromDatabaseModel? input, ImageDownloadPipelineSettings pipelineSettings, ProcessorNextCallback<ImageFromDatabaseModel> next)
+        public async Task<ProcessorResult> ProcessAsync(ImageFromDatabaseModel? input, ImageDownloadPipelineSettings pipelineSettings)
         {
-            if (input == null || input.ImageEntities.Count <= 0)
-                next.Invoke(input, new ProcessorResult(ProcessorResultType.SKIPPED));
+            if (input == null || input.Entity == null)
+                return new ProcessorResult(ProcessorResultType.SKIPPED, "skipped, list is null or empty");
 
-            input!.ImageEntities.ForEach(i =>
+            try
             {
-                // Currently there is no async implementation for Processors and Pipelines planned ;)
-                var task = Task.Run(() => downloadImageEntity(i));
-                task.Wait();
-            });
+                await downloadImageEntityAsync(input.Entity);
+            }
+            catch (Exception ex)
+            {
+                return new ProcessorResult(ProcessorResultType.FAILED, ex.Message);
+            }
+
+            return new ProcessorResult(ProcessorResultType.SUCCESS, "downloaded successfully");
         }
+
         /// <summary>
         /// Download Image from stored URL in <paramref name="imageEntity"/>
         /// </summary>
         /// <param name="imageEntity"></param>
         /// <returns></returns>
-        private async Task downloadImageEntity(ImageEntity imageEntity)
+        private async Task downloadImageEntityAsync(ImageEntity imageEntity)
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -41,6 +46,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Processors.Image
                 _imageFileRepository.SaveImage(result, imageEntity.Id, extension);
             }
         }
+
         /// <summary>
         /// Find file extension from URL.
         /// </summary>

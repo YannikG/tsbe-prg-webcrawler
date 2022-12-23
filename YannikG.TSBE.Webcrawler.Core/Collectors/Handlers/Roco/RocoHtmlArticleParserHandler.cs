@@ -1,6 +1,5 @@
 ﻿using HtmlAgilityPack;
 using YannikG.TSBE.Webcrawler.Core.Models;
-using YannikG.TSBE.Webcrawler.Core.Processors;
 using YannikG.TSBE.Webcrawler.Core.Utilities;
 
 namespace YannikG.TSBE.Webcrawler.Core.Collectors.Handlers.Roco;
@@ -13,17 +12,19 @@ public class RocoHtmlArticleParserHandler
     private const string CSS_CLASS_ARTICLE_LINK = "product-item-link";
     private const string CSS_CLASS_ARTICLE_IMAGE = "product-image-photo";
 
-    public void Handle(string html, ProcessorNextCallback<BasicArticleModel> next)
+    public List<BasicArticleModel> Handle(string html)
     {
         HtmlDocument htmlDoc = new HtmlDocument();
         htmlDoc.LoadHtml(html);
 
-        htmlDoc.DocumentNode.Descendants(HTML_ELEMENT_PRODUCT)
-               .Where(node => node.GetAttributeValue("class", "")
-                   .Contains(CSS_CLASS_PRODUCT)
-                     )
-               .ToList()
-               .ForEach(node => next(processProduct(node), new ProcessorResult(ProcessorResultType.SUCCESS, $"Collector finished.")));
+        var result = htmlDoc.DocumentNode.Descendants(HTML_ELEMENT_PRODUCT)
+                .Where(node => node.GetAttributeValue("class", "")
+                    .Contains(CSS_CLASS_PRODUCT)
+                      )
+                .Select(node => (processProduct(node)))
+                .ToList();
+
+        return result;
     }
 
     private BasicArticleModel processProduct(HtmlNode htmlNode)

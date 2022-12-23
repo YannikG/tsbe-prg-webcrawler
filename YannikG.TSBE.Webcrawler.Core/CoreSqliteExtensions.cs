@@ -29,6 +29,7 @@ namespace YannikG.TSBE.Webcrawler.Core
 
             return services;
         }
+
         /// <summary>
         /// Add sqlite based implementation for entities repositories.
         /// </summary>

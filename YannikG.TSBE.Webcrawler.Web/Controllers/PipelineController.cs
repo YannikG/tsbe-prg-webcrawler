@@ -37,7 +37,7 @@ namespace YannikG.TSBE.Webcrawler.Web.Controllers
         [HttpPost("roco")]
         public async Task<IActionResult> StartRocoPipeline([FromBody] RocoPipelineSettings settings)
         {
-            await _rocoBasicArticlePipeline.StartPipeline(settings);
+            await _rocoBasicArticlePipeline.StartPipelineAsync(settings);
 
             return NoContent();
         }
@@ -45,7 +45,7 @@ namespace YannikG.TSBE.Webcrawler.Web.Controllers
         [HttpPost("imagedownload")]
         public async Task<IActionResult> StartImageDownloadPipeline([FromBody] ImageDownloadPipelineSettings settings)
         {
-            await _imageDownloadPipeline.StartPipeline(settings);
+            await _imageDownloadPipeline.StartPipelineAsync(settings);
 
             return NoContent();
         }
