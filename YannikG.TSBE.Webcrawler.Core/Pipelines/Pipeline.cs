@@ -28,7 +28,7 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
 
             if (_collector is null)
                 // When no collector was found, start processors with null.
-                await _runProcessors(null);
+                await runProcessors(null);
             else
             {
                 // Otherwise start collector.
@@ -37,11 +37,11 @@ namespace YannikG.TSBE.Webcrawler.Core.Pipelines
                 string? currentCollectorName = _collector.GetType().Name;
                 _logger.LogInformation($"[{currentCollectorName}] Collector done with total {collectorResult.Count} items");
 
-                collectorResult.ToList().ForEach(async result => await _runProcessors(result));
+                collectorResult.ToList().ForEach(async result => await runProcessors(result));
             }
         }
 
-        private async Task _runProcessors(TInput? input)
+        private async Task runProcessors(TInput? input)
         {
             foreach (var processor in _processors)
             {
